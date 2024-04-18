@@ -1,0 +1,35 @@
+Utwórz strukturę Punkt złożoną z dwóch pól typu double, opisujących współrzędne
+na płaszczyźnie. Następnie napisz funkcję, która zapisze całą tablicę (rozmiar
+dowolny), instancji struktury Punkt, do pliku, w trybie tekstowym. Przyjmij taki
+format, że poszczególne pola struktury są oddzielane średnikiem, a instancje zapisywane są każda w osobnej linii pliku. Do funkcji przesyłaj nazwę pliku, a nie
+wskaźnik do niego!
+Pamiętaj o przekazaniu rozmiaru tablicy do funkcji. Zacznij od otwarcia pliku
+o zadanej nazwie w trybie do zapisu. Następnie W pętli zapisuj poszczególne instancje do pliku. Dobierz tak format, aby zapisywać każdą instancję tablicy (jedną
+linię w pliku) jedną instrukcją.
+Formatowany zapis do pliku jest sprawą dość prostą. Funkcja fprintf pozwala na
+formatowanie łańcucha znakowego z wykorzystaniem znaczników zaczynających się odznaku %. Należy pamiętać, że funkcja ta przyjmuje jako dwa pierwsze argumenty:
+wskaźnik do pliku (typ FILE*) i c-string z definicją formatu. Po nich mogą pojawić
+się dodatkowe argumenty różnych typów, których liczba powinna odpowiadać liczbie
+znaczników (%) w c-stringu (drugi argument). Przykładowo instrukcja:
+fprintf(plik,”Ala ma %d koty i %f psa :)”,2,3.4);
+spowoduje zapisanie do pliku treści:
+Ala ma 2 koty i 3.4 psa :).
+Zauważ, że znacznik %d pasuje tylko do liczb całkowitych. Gdy chcemy zapisać liczby typu float powinniśmy zapisać znacznik %f a double %lf. Znacznik są parowane
+względem kolejności. Pierwszy % odpowiada pierwszemu dodatkowemu argumentowi po cstringu, drugi, drugiemu, itd. Należy też pamiętać, że typ danych dodatkowego argumentu musi być dopasowany do typu znacznika. Jeśli znacznik to %d, a odpowiadający mu dodatkowy argument to double, to nastąpi błąd interpretacji danych i do
+pliku zapisze się nieprawidłowa liczba. W c-stringu można także umieszczać znaki
+sterujące jak np. ‘\n’. Przed zakończeniem funkcji zamknij plik.
+■ Napisz funkcję, która odczyta n-tą instancję struktury Punkt z pliku i zwróci ją
+do programu głównego. Wartość n powinna być pobierana z klawiatury w main i przekazywana do funkcji. Jeśli w pliku znajduje się mniej niż n instancji to zwróć
+ostatnią zapisaną. Przejmij numerowanie naturalne – pierwsza instancja w pliku to
+instancja nr 1. Do funkcji przesyłaj nazwę pliku, a nie wskaźnik do niego!
+Funkcja powinna zacząć od otwarcia pliku w trybie do odczytu. Następnie powinna
+wczytywać w pętli parami liczby rzeczywiste. Przy wczytywaniu pierwszej wyraźnie
+zaznacz, że kończy się średnikiem, druga kończy się znakiem białym (‘\n’), więc
+nie wymaga szczególnej uwagi. Użyj polecania scanf, które pozwala określić format
+odczytu. Wczytane liczby zapisz do lokalnych zmiennych.
+Pętla wczytująca powinna mieć dwa warunki zakończenia: wczytanie n tej instancji
+(linii) z pliku i nienapotkanie końca pliku (użyj funkcji feof). Po zakończeniu
+pętli wczytującej (bez względu na to, który z warunków końca zaistniał) ostatnie
+odcztane wartości należy wpisać do pól instancji klasy Punkt i zwrócić całą instancję przez return (utwórz lokalną instancję klasy). Pamiętaj aby przed instrukcją return zamknąć plik.
+Kluczowe w tym zadaniu jest, aby funkcje wewnętrznie same otwierały i zamykały
+pliki. Nie chcemy się tym zajmować w funkcji main.
