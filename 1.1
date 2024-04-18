@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+// Struktura opisująca punkt na płaszczyźnie
+struct Punkt {
+    double x;
+    double y;
+};
+
+// Funkcja do zapisu tablicy punktów do pliku
+void zapisz_do_pliku(const char *nazwa_pliku, struct Punkt tablica[], int rozmiar) {
+    FILE *plik = fopen(nazwa_pliku, "w");
+    if (plik == NULL) {
+        printf("Błąd otwarcia pliku do zapisu.\n");
+        return;
+    }
+
+    for (int i = 0; i < rozmiar; i++) {
+        fprintf(plik, "%lf;%lf\n", tablica[i].x, tablica[i].y);
+    }
+
+    fclose(plik);
+}
+
+// Funkcja do odczytu n-tej instancji struktury Punkt z pliku
+struct Punkt odczytaj_z_pliku(const char *nazwa_pliku, int n) {
+    FILE *plik = fopen(nazwa_pliku, "r");
+    if (plik == NULL) {
+        printf("Błąd otwarcia pliku do odczytu.\n");
+        // Jeśli nie udało się otworzyć pliku, zwróć punkt (0, 0)
+        return (struct Punkt){0.0, 0.0};
+    }
+
+    struct Punkt punkt;
+    int numer_instancji = 0;
+
+    while (!feof(plik) && numer_instancji < n) {
+        fscanf(plik, "%lf;%lf ", &punkt.x, &punkt.y);
+        numer_instancji++;
+    }
+
+    fclose(plik);
+    return punkt;
+}
+
+int main() {
+    // Przykładowa tablica punktów
+    struct Punkt tablica_punktow[] = {
+        {1.0, 2.0},
+        {3.0, 4.0},
+        {5.0, 6.0}
+    };
+    int rozmiar_tablicy = sizeof(tablica_punktow) / sizeof(tablica_punktow[0]);
+
+    // Zapisz tablicę punktów do pliku
+    zapisz_do_pliku("punkty.txt", tablica_punktow, rozmiar_tablicy);
+
+    // Odczytaj n-tą instancję z pliku
+    int n;
+    printf("Podaj numer instancji do odczytu: ");
+    scanf("%d", &n);
+    struct Punkt odczytany_punkt = odczytaj_z_pliku("punkty.txt", n);
+
+    // Wyświetl odczytany punkt
+    printf("Odczytany punkt: (%lf, %lf)\n", odczytany_punkt.x, odczytany_punkt.y);
+
+    return 0;
+}
